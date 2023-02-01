@@ -65,7 +65,7 @@ update msg model =
       Ok text -> ({model | wordsList = (Array.fromList (String.split " " text))}, getRandomInt (Array.fromList (String.split " " text)))
       Err _ -> ({model | error = "Can't load your words", loading = False}, Cmd.none)
     GenWord newInt -> let anotherWord = takeString (Array.get (newInt) model.wordsList) in
-      ({model | tobeGuessed = anotherWord}, getMeanings anotherWord)
+      ({model | tobeGuessed = anotherWord}, getting_descriptions anotherWord)
     GotJson result ->
       case result of
       Ok json -> ({model | descriptions = (takeWord (List.head json)).descriptions, loading = False }, Cmd.none)
@@ -80,8 +80,8 @@ getting_words =
     , expect = Http.expectString HaveWords
     }
 
-getMeanings : String -> Cmd Msg
-getMeanings get_word = 
+getting_descriptions : String -> Cmd Msg
+getting_descriptions get_word = 
   Http.get
     { url = api++get_word
     , expect = Http.expectJson GotJson jsonDecoder
