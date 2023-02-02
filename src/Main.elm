@@ -78,24 +78,18 @@ view model =
     if model.loading then
       h1 [][text " Loading ..."]
     else if model.error /= "" then
-      h2 [class "highlight"][text "Error: " ++ model.error]
+      h2 [class "highlight"][text "Error: " ]
     else if model.victory then
       h1 [][text "That is right!"]
     else
       div [class "top"] [
         h1 [][text "Make a guess"],
         if model.displayGuess then
-          h2 [][text "The answer was " ++ model.tobeGuessed]
+          h2 [][text "The answer was "]
         else
           text "",
         descriptions_html model.descriptions,
-        div [class "top"] [
-          input [type_ "text", placeholder "Take a guess", value model.guess_, onInput Convert],
-          label [class "wrapper"] [
-            input [type_ "checkbox", onClick (Print (not model.displayGuess))],
-            div [class "slider"] [div [class "knob"][]]
-          ]
-        ]
+        div [class "top"] []
       ]
   ]
 getting_words : Cmd Msg

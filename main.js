@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.N.B === region.V.B)
+	if (region.L.A === region.U.A)
 	{
-		return 'on line ' + region.N.B;
+		return 'on line ' + region.L.A;
 	}
-	return 'on lines ' + region.N.B + ' through ' + region.V.B;
+	return 'on lines ' + region.L.A + ' through ' + region.U.A;
 }
 
 
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		o: func(record.o),
-		O: record.O,
-		L: record.L
+		M: record.M,
+		J: record.J
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.o;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.O;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.M;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.L) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.J) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3983,7 +3983,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 		impl.a$,
 		impl.aY,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.M && impl.M(sendToApp)
+			var divertHrefToApp = impl.K && impl.K(sendToApp)
 			var view = impl.a0;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -4058,7 +4058,7 @@ function _Browser_application(impl)
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		M: function(sendToApp)
+		K: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4380,13 +4380,13 @@ var _Http_toTask = F3(function(router, toTask, request)
 	return _Scheduler_binding(function(callback)
 	{
 		function done(response) {
-			callback(toTask(request.X.a(response)));
+			callback(toTask(request.W.a(response)));
 		}
 
 		var xhr = new XMLHttpRequest();
 		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
 		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
-		xhr.addEventListener('load', function() { done(_Http_toResponse(request.X.b, xhr)); });
+		xhr.addEventListener('load', function() { done(_Http_toResponse(request.W.b, xhr)); });
 		$elm$core$Maybe$isJust(request.at) && _Http_track(router, xhr, request.at.a);
 
 		try {
@@ -4414,7 +4414,7 @@ function _Http_configureRequest(xhr, request)
 		xhr.setRequestHeader(headers.a.a, headers.a.b);
 	}
 	xhr.timeout = request.aZ.a || 0;
-	xhr.responseType = request.X.d;
+	xhr.responseType = request.W.d;
 	xhr.withCredentials = request.aA;
 }
 
@@ -5132,7 +5132,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {Y: fragment, aa: host, ae: path, ag: port_, aj: protocol, ak: query};
+		return {X: fragment, aa: host, ae: path, ag: port_, aj: protocol, ak: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5413,7 +5413,7 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$Model = F9(
 	function (descriptions, victory, loading, error, guess_, tobeGuessed, wordsList, showGuess, displayGuess) {
-		return {aE: descriptions, G: displayGuess, A: error, I: guess_, w: loading, aV: showGuess, H: tobeGuessed, P: victory, Q: wordsList};
+		return {aE: descriptions, G: displayGuess, F: error, Y: guess_, w: loading, aV: showGuess, N: tobeGuessed, O: victory, P: wordsList};
 	});
 var $author$project$Main$empty_model = A9($author$project$Main$Model, _List_Nil, false, false, '', '', '', $elm$core$Array$empty, false, false);
 var $author$project$Main$HaveWords = function (a) {
@@ -6164,7 +6164,7 @@ var $elm$http$Http$cmdMap = F2(
 				{
 					aA: r.aA,
 					aC: r.aC,
-					X: A2(_Http_mapExpect, func, r.X),
+					W: A2(_Http_mapExpect, func, r.W),
 					Z: r.Z,
 					aL: r.aL,
 					aZ: r.aZ,
@@ -6192,17 +6192,16 @@ var $elm$http$Http$subscription = _Platform_leaf('Http');
 var $elm$http$Http$request = function (r) {
 	return $elm$http$Http$command(
 		$elm$http$Http$Request(
-			{aA: false, aC: r.aC, X: r.X, Z: r.Z, aL: r.aL, aZ: r.aZ, at: r.at, au: r.au}));
+			{aA: false, aC: r.aC, W: r.W, Z: r.Z, aL: r.aL, aZ: r.aZ, at: r.at, au: r.au}));
 };
 var $elm$http$Http$get = function (r) {
 	return $elm$http$Http$request(
-		{aC: $elm$http$Http$emptyBody, X: r.X, Z: _List_Nil, aL: 'GET', aZ: $elm$core$Maybe$Nothing, at: $elm$core$Maybe$Nothing, au: r.au});
+		{aC: $elm$http$Http$emptyBody, W: r.W, Z: _List_Nil, aL: 'GET', aZ: $elm$core$Maybe$Nothing, at: $elm$core$Maybe$Nothing, au: r.au});
 };
-var $author$project$Main$path_to_words = 'words_and_design/words.txt';
 var $author$project$Main$getting_words = $elm$http$Http$get(
 	{
-		X: $elm$http$Http$expectString($author$project$Main$HaveWords),
-		au: $author$project$Main$path_to_words
+		W: $elm$http$Http$expectString($author$project$Main$HaveWords),
+		au: 'words_and_design/words.txt'
 	});
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
@@ -6317,10 +6316,10 @@ var $author$project$HomePage$OneWord = F2(
 	});
 var $author$project$HomePage$Description = F2(
 	function (partOfSpeech, definitions) {
-		return {U: definitions, aR: partOfSpeech};
+		return {T: definitions, aR: partOfSpeech};
 	});
 var $author$project$HomePage$Definitions = function (definitions) {
-	return {U: definitions};
+	return {T: definitions};
 };
 var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$custom = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
 var $elm$json$Json$Decode$field = _Json_decodeField;
@@ -6360,7 +6359,7 @@ var $author$project$Main$link_to_api = 'https://api.dictionaryapi.dev/api/v2/ent
 var $author$project$Main$getting_descriptions = function (get_word) {
 	return $elm$http$Http$get(
 		{
-			X: A2($elm$http$Http$expectJson, $author$project$Main$Json, $author$project$HomePage$jsonDecoder),
+			W: A2($elm$http$Http$expectJson, $author$project$Main$Json, $author$project$HomePage$jsonDecoder),
 			au: _Utils_ap($author$project$Main$link_to_api, get_word)
 		});
 };
@@ -6549,14 +6548,14 @@ var $author$project$Main$update = F2(
 		switch (msg.$) {
 			case 0:
 				var guess_ = msg.a;
-				return _Utils_eq(guess_, model.H) ? _Utils_Tuple2(
+				return _Utils_eq(guess_, model.N) ? _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{P: true}),
+						{O: true}),
 					$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{I: guess_}),
+						{Y: guess_}),
 					$elm$core$Platform$Cmd$none);
 			case 1:
 				var print = msg.a;
@@ -6573,7 +6572,7 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								Q: $elm$core$Array$fromList(
+								P: $elm$core$Array$fromList(
 									A2($elm$core$String$split, ' ', text))
 							}),
 						$author$project$Main$random_function(
@@ -6583,17 +6582,17 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{A: 'Can\'t load your words', w: false}),
+							{F: 'Can\'t load your words', w: false}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 3:
 				var newNum = msg.a;
 				var anotherWord = $author$project$GrabMaybe$takeString(
-					A2($elm$core$Array$get, newNum, model.Q));
+					A2($elm$core$Array$get, newNum, model.P));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{H: anotherWord}),
+						{N: anotherWord}),
 					$author$project$Main$getting_descriptions(anotherWord));
 			default:
 				var result = msg.a;
@@ -6612,17 +6611,11 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{A: 'Can\'t load API', w: false}),
+							{F: 'Can\'t load API', w: false}),
 						$elm$core$Platform$Cmd$none);
 				}
 		}
 	});
-var $author$project$Main$Convert = function (a) {
-	return {$: 0, a: a};
-};
-var $author$project$Main$Print = function (a) {
-	return {$: 1, a: a};
-};
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -6648,7 +6641,7 @@ var $author$project$Main$def_function = function (list) {
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(def.U)
+							$elm$html$Html$text(def.T)
 						]));
 			},
 			list));
@@ -6674,7 +6667,7 @@ var $author$project$Main$descriptions_html = function (list) {
 								[
 									$elm$html$Html$text(description.aR)
 								])),
-							$author$project$Main$def_function(description.U)
+							$author$project$Main$def_function(description.T)
 						]));
 			},
 			list));
@@ -6682,63 +6675,9 @@ var $author$project$Main$descriptions_html = function (list) {
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $elm$html$Html$input = _VirtualDom_node('input');
-var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$core$Basics$neq = _Utils_notEqual;
-var $elm$core$Basics$not = _Basics_not;
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
-};
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $elm$html$Html$Events$alwaysStop = function (x) {
-	return _Utils_Tuple2(x, true);
-};
-var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
-	return {$: 1, a: a};
-};
-var $elm$html$Html$Events$stopPropagationOn = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
-	});
-var $elm$json$Json$Decode$at = F2(
-	function (fields, decoder) {
-		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
-	});
-var $elm$html$Html$Events$targetValue = A2(
-	$elm$json$Json$Decode$at,
-	_List_fromArray(
-		['target', 'value']),
-	$elm$json$Json$Decode$string);
-var $elm$html$Html$Events$onInput = function (tagger) {
-	return A2(
-		$elm$html$Html$Events$stopPropagationOn,
-		'input',
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$html$Html$Events$alwaysStop,
-			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
-};
-var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
-var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
-var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $author$project$Main$view = function (model) {
-	return model.P ? A2(
+	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
@@ -6746,62 +6685,28 @@ var $author$project$Main$view = function (model) {
 			]),
 		_List_fromArray(
 			[
-				A2(
-				$elm$html$Html$h1,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(' That is right ')
-					]))
-			])) : (model.w ? A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$id('container')
-			]),
-		_List_fromArray(
-			[
-				A2(
+				model.w ? A2(
 				$elm$html$Html$h1,
 				_List_Nil,
 				_List_fromArray(
 					[
 						$elm$html$Html$text(' Loading ...')
-					]))
-			])) : ((model.A !== '') ? A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$id('container')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$h1,
+					])) : ((model.F !== '') ? A2(
+				$elm$html$Html$h2,
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('highlight')
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Error')
-					])),
-				A2(
-				$elm$html$Html$h2,
+						$elm$html$Html$text('Error: ')
+					])) : (model.O ? A2(
+				$elm$html$Html$h1,
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(model.A)
-					]))
-			])) : A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$id('container')
-			]),
-		_List_fromArray(
-			[
-				A2(
+						$elm$html$Html$text('That is right!')
+					])) : A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
@@ -6814,81 +6719,25 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text(' Make a guess ')
+								$elm$html$Html$text('Make a guess')
 							])),
 						model.G ? A2(
 						$elm$html$Html$h2,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('the answer was '),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('highlight')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(model.H)
-									]))
-							])) : $elm$html$Html$text('')
-					])),
-				$author$project$Main$descriptions_html(model.aE),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('top')
-					]),
-				_List_fromArray(
-					[
+								$elm$html$Html$text('The answer was ')
+							])) : $elm$html$Html$text(''),
+						$author$project$Main$descriptions_html(model.aE),
 						A2(
-						$elm$html$Html$input,
+						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$type_('text'),
-								$elm$html$Html$Attributes$placeholder('Take a guess'),
-								$elm$html$Html$Attributes$value(model.I),
-								$elm$html$Html$Events$onInput($author$project$Main$Convert)
+								$elm$html$Html$Attributes$class('top')
 							]),
-						_List_Nil),
-						A2(
-						$elm$html$Html$label,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('wrapper')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$input,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$type_('checkbox'),
-										$elm$html$Html$Events$onClick(
-										$author$project$Main$Print(!model.G))
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('slider')
-									]),
-								_List_fromArray(
-									[
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('knob')
-											]),
-										_List_Nil)
-									]))
-							]))
-					]))
-			]))));
+						_List_Nil)
+					]))))
+			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{aK: $author$project$Main$init, aY: $author$project$Main$subscriptions, a$: $author$project$Main$update, a0: $author$project$Main$view});
