@@ -1,5 +1,4 @@
 module HomePage exposing (..)
-import Json.Decode.Pipeline exposing (required)
 import Json.Decode exposing (Decoder, string, succeed, list)
 import Json.Decode.Pipeline exposing (required)
 
@@ -26,16 +25,7 @@ jsonDecoder : Decoder (List OneWord)
 jsonDecoder = list wordDecoder
 
 -- MODEL
-type alias Description = { 
-    partOfSpeech : String
-  , definitions : List Definitions
- -- , partOfSpeech : String  -- to be deleted
-  }
+type alias Description = { partOfSpeech : String, definitions : List Definitions}
 
-type alias Definitions = { 
-    definitions : String
-  }
-type alias OneWord = { 
-    oneWord : String
-  , descriptions : List Description
-  }
+type alias Definitions = { definitions : String}
+type alias OneWord = { oneWord : String, descriptions : List Description}
