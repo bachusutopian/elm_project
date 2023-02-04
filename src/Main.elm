@@ -2,16 +2,21 @@ module Main exposing(..)
 import String
 import Browser
 import Html exposing (..)
-import Http
 import Html.Events exposing (..)
-import Array exposing (Array)
+import Http 
 import Array exposing (..)
 import HomePage exposing (..)
 import GrabMaybe exposing(..)
 import Array exposing (empty)
 import Random exposing(..)
 import Html.Attributes exposing(..)
-
+import HomePage exposing (OneWord)
+type Error
+    = BadUrl String
+    | Timeout
+    | NetworkError
+    | BadStatus Int
+    | BadBody String
 -- MAIN
 
 main : Program () Model Msg
@@ -25,7 +30,7 @@ main =
 path_to_words : String
 path_to_words = "words_and_design/words.txt"
 link_to_api : String
-link_to_api = "https://api.dictionaryapi.dev/api/v2/entries/en/hello"
+link_to_api = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 
 -- MODEL
@@ -55,13 +60,13 @@ update msg model =
     HaveWords result -> ----If the message is HaveWords, the function checks if the result is Ok, meaning the words from the file were successfully loaded. If the result is Ok, the words are extracted from the result and are converted into an Array of strings.
       case result of
       Ok text -> ({model | wordsList = (Array.fromList (String.split " " text))}, random_function (Array.fromList (String.split " " text)))
-      Err _ -> ({model | error = "Can't load your words", loading = False}, Cmd.none)
+      Err err -> ({model | error = (errorToString err)++("word"), loading = False}, Cmd.none)
     GenWord newNum -> let anotherWord = takeString (Array.get (newNum) model.wordsList) in
       ({model | tobeGuessed = anotherWord}, getting_descriptions anotherWord)
     Json result ->     ---If the message is Json, the function checks if the result is Ok, meaning the API request for the word descriptions was successful. If the result is Ok, the function extracts the descriptions from the JSON response and updates the descriptions field in the model.
       case result of
       Ok json -> ({model | descriptions = (takeWord (List.head json)).descriptions, loading = False }, Cmd.none)
-      Err _ -> ({model | error = "Can't load API", loading = False}, Cmd.none)
+      Err err -> ({model | error = errorToString err, loading = False}, Cmd.none)
 
 -- SUBSCRIPTIONS
 
@@ -70,6 +75,7 @@ subscriptions : Model -> Sub Msg
 subscriptions _ = Sub.none
 
 -- VIEW
+
 --functions-- to do
 
 view : Model -> Html Msg
@@ -78,14 +84,14 @@ view model =
     if model.loading then
       h1 [][text " Loading ..."]
     else if model.error /= "" then
-      h2 [class "highlight"][text "Error: " ]
+      h2 [class "color"][text model.error ]
     else if model.victory then
-      h1 [][text "That is right!"]
+      h1 [][text "Correct guess"]
     else
       div [class "top"] [
         h1 [][text "Make a guess"],
         if model.displayGuess then
-          h2 [][text "The answer was "]
+          h2 [][text "Answer is : "]
         else
           text "",
         descriptions_html model.descriptions,
@@ -116,3 +122,34 @@ descriptions_html : List Description -> Html Msg
 descriptions_html list = ul [] (List.map (\description -> li [] [h2[][text description.partOfSpeech], def_function description.definitions]) list)  --  is a function that takes a list of descriptions and returns the HTML to display them.
 def_function : List Definitions -> Html Msg
 def_function list = ol [] (List.map (\def -> li [] [text def.definitions]) list)  -- is a function that takes a list of definitions and returns the HTML to display them.
+
+
+errorToString : Http.Error -> String
+errorToString error =
+    case error of
+        Http.BadUrl url ->
+            "The URL " ++ url ++ " was invalid"
+        Http.Timeout ->
+            "Unable to reach the server, try again"
+        Http.NetworkError ->
+            "Unable to reach the server, check your network connection"
+        Http.BadStatus 500 ->
+            "The server had a problem, try again later"
+        Http.BadStatus 400 ->
+            "Verify your information and try again"
+        Http.BadStatus x -> 
+            "Unknown error"++ String.fromInt x
+        Http.BadBody errorMessage ->
+            errorMessage
+
+takeWord : Maybe OneWord -> OneWord
+takeWord first = 
+  case first of 
+    Just one_word -> one_word
+    Nothing -> OneWord "" [] 
+
+takeString : Maybe String -> String
+takeString first = 
+  case first of 
+    Just str -> str
+    Nothing -> ""

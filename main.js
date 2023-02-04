@@ -6215,6 +6215,29 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
+var $author$project$Main$errorToString = function (error) {
+	switch (error.$) {
+		case 0:
+			var url = error.a;
+			return 'The URL ' + (url + ' was invalid');
+		case 1:
+			return 'Unable to reach the server, try again';
+		case 2:
+			return 'Unable to reach the server, check your network connection';
+		case 3:
+			switch (error.a) {
+				case 500:
+					return 'The server had a problem, try again later';
+				case 400:
+					return 'Verify your information and try again';
+				default:
+					return 'Unknown error';
+			}
+		default:
+			var errorMessage = error.a;
+			return errorMessage;
+	}
+};
 var $elm$core$Array$fromListHelp = F3(
 	function (list, nodeList, nodeListSize) {
 		fromListHelp:
@@ -6579,10 +6602,14 @@ var $author$project$Main$update = F2(
 							$elm$core$Array$fromList(
 								A2($elm$core$String$split, ' ', text))));
 				} else {
+					var err = result.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{F: 'Can\'t load your words', w: false}),
+							{
+								F: $author$project$Main$errorToString(err),
+								w: false
+							}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 3:
@@ -6608,10 +6635,14 @@ var $author$project$Main$update = F2(
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
+					var err = result.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{F: 'Can\'t load API', w: false}),
+							{
+								F: $author$project$Main$errorToString(err),
+								w: false
+							}),
 						$elm$core$Platform$Cmd$none);
 				}
 		}
