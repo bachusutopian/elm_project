@@ -28,17 +28,17 @@ main =
       , subscriptions = subscriptions
       , view = view}
 path_to_words : String
-path_to_words = "words_and_design/words.txt"
+path_to_words = "../words_and_design/words.txt"
 link_to_api : String
 link_to_api = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 
 -- MODEL
 
-type alias Model = { descriptions : List Description , victory : Bool, loading: Bool, error: String, guess_ : String , tobeGuessed : String, wordsList: Array String , showGuess: Bool, displayGuess : Bool} 
+type alias Model = { descriptions : List Description , victory : Bool, loading: Bool, error: String, guess_ : String , tobeGuessed : String, wordsList: Array String , displayGuess : Bool} 
 
 empty_model : Model   --is a value of type Model with all fields set to default values.
-empty_model= Model [] False False "" "" "" empty  False False
+empty_model= Model [] False False "" "" "" empty  False 
 
 -- INIT
 init : flags -> (Model, Cmd Msg)
@@ -141,6 +141,7 @@ errorToString error =
             "Unknown error"++ String.fromInt x
         Http.BadBody errorMessage ->
             errorMessage
+
 
 takeWord : Maybe OneWord -> OneWord
 takeWord first = 
